@@ -57,14 +57,14 @@ public class AppController {
 	 * This method will list all existing users.
 	 */
 	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-	public String listUsers(ModelMap model) {
+	public ModelAndView listUsers(ModelMap model) {
 		System.out.println("listUsers model:::"+model);
 		List<User> users = userService.findAllUsers();
 		System.out.println("users:::"+users);
 		System.out.println("getPrincipal:::"+getPrincipal());
 		model.addAttribute("users", users);
 		model.addAttribute("loggedinuser", getPrincipal());
-		return "dashboard";
+		return new ModelAndView("indexpage","userclickdashboard",true);
 	}
 
 	/**
@@ -260,27 +260,42 @@ public class AppController {
 	@RequestMapping(value = { "/dashboard.htm" }, method = RequestMethod.GET)
 	public ModelAndView getDashboard() throws IOException {
 		System.out.println(env.getProperty("db.driver"));
-		return new ModelAndView("dashboard", "contactresponse", "Contact ++ Hello Bro!!!");
+		ModelAndView mv=new ModelAndView("indexpage");
+		mv.addObject("title", "Dashboard");
+		mv.addObject("userclickdashboard", true);
+		return mv;
 	}
 	@RequestMapping("/user.htm")
 	public ModelAndView getUser() throws IOException {
-		return new ModelAndView("user", "contactresponse", "Contact ++ Hello Bro!!!");
+		ModelAndView mv=new ModelAndView("indexpage");
+		mv.addObject("title", "User");
+		mv.addObject("userclickuser", true);
+		return mv;
 	}
 	@RequestMapping("/table.htm")
 	public ModelAndView getTable() throws IOException {
-		return new ModelAndView("tables", "contactresponse", "Contact ++ Hello Bro!!!");
+		ModelAndView mv=new ModelAndView("indexpage");
+		mv.addObject("title", "Tables");
+		mv.addObject("userclicktables", true);
+		return mv;
 	}
 	@RequestMapping("/typography.htm")
 	public ModelAndView getTypography() throws IOException {
-		return new ModelAndView("typography", "contactresponse", "Contact ++ Hello Bro!!!");
+		ModelAndView mv=new ModelAndView("indexpage");
+		mv.addObject("title", "Typography");
+		mv.addObject("userclicktypography", true);
+		return mv;
 	}
 	@RequestMapping("/maps.htm")
 	public ModelAndView getMaps() throws IOException {
-		return new ModelAndView("maps", "homeresponse", "Home ++Hello Bro!!!");
+		return new ModelAndView("maps", "homeresponse", true);
 	}
 	@RequestMapping("/notifications.htm")
 	public ModelAndView getNotifications() throws IOException {
-		return new ModelAndView("notifications", "homeresponse", "Home ++Hello Bro!!!");
+		ModelAndView mv=new ModelAndView("indexpage");
+		mv.addObject("title", "Notifcation");
+		mv.addObject("userclicknotification", true);
+		return mv;
 	}
 
 }
